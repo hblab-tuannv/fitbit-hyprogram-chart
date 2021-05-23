@@ -54,6 +54,11 @@ HYPNOGRAM_CHART.prototype.renderChart = function renderChart() {
     });
   }
 
+  // Resize chart when resizing window
+  $(window).on('resize', function() {
+    _this._handleResize();
+  })
+
   // Event show/hide tooltip
   d3.select($element[0]).on('touchmove', function(event) {
     _this.showTooltip(event);
