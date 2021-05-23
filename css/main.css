@@ -1,0 +1,73 @@
+.sleep-hypnogram-chart {
+    background: #1e1842
+}
+
+.sleep-hypnogram-chart .hypnogram-segment,
+.sleep-hypnogram-chart .hypnogram-segment-cap {
+    opacity: 0;
+    -webkit-transition: opacity .7s;
+    transition: opacity .7s
+}
+
+.sleep-hypnogram-chart .active-stage {
+    opacity: .35
+}
+
+.sleep-hypnogram-chart .hypnogram {
+    opacity: 1;
+    -webkit-transition: opacity .7s;
+    transition: opacity .7s;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    stroke: none
+}
+
+.sleep-hypnogram-chart .hypnogram-path {
+    fill: none;
+    stroke-width: 1px;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    opacity: 1;
+    -webkit-transition: opacity .7s;
+    transition: opacity .7s
+}
+
+.sleep-hypnogram-chart .axis-x .domain,
+.sleep-hypnogram-chart .axis-x .tick line {
+    stroke: #fff;
+    shape-rendering: crispEdges
+}
+
+.sleep-hypnogram-chart .hide-hypnogram {
+    opacity: .25
+}
+
+.sleep-hypnogram-chart .hide-hypnogram.hypnogram-path {
+    opacity: .05
+}
+
+.sleep-hypnogram-chart .hypnogram-short-wake {
+    opacity: .5;
+    fill: #f7386e
+}
+
+.sleep-hypnogram-chart .axis-y .domain,
+.sleep-hypnogram-chart .axis-y .tick line {
+    display: none;
+}
+
+.sleep-hypnogram-chart .axis-x .tick text,
+.sleep-hypnogram-chart .axis-y .tick text {
+    fill: #fff;
+    font: normal normal .6875rem "Proxima Nova Regular", Arial, sans-serif
+}
+
+@media screen and (max-width:39.9375em) {
+    .sleep-hypnogram-chart .axis-x .tick:nth-child(odd) {
+        display: none
+    }
+
+    .sleep-hypnogram-chart .axis-x .tick:last-child {
+        display: block
+    }
+}
