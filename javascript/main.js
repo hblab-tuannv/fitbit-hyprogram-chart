@@ -576,7 +576,7 @@ HYPNOGRAM_CHART.prototype.appendDataTooltip = function appendDataTooltip() {
     '</span>' +
     '<br>' +
     '<span>' +
-      this.selectedSegment.start.format('h:mm:ss') + ' - ' + this.selectedSegment.end.format('h:mm:ss') +
+      this.selectedSegment.start.format('HH:mm:ss') + ' - ' + this.selectedSegment.end.format('HH:mm:ss') +
     '</span>'
   );
 }
