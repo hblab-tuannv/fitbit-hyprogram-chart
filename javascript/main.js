@@ -2,11 +2,18 @@ const HYPNOGRAM_CHART = function (selector, data) {
   this.ELEMENT = $(selector);
   this.DATA = data;
   this.yAxisLabels = {wake: 'wake', rem: 'rem', light: 'light', deep: 'deep'};
+  this.tooltipClassName = 'hypnogram-chart-tooltip';
+  this.selectedSegment = null;
+  this.tooltipLocation = null;
 };
 
 HYPNOGRAM_CHART.prototype.renderChart = function renderChart() {
   var $element = this.ELEMENT;
   var data = this.DATA;
+  var _this = this;
+
+  // Append tooltip
+  $element.append($('<div class="' + this.tooltipClassName + '"></div>'));
 
   var dateOfSleep = data.sleep[0].dateOfSleep,
     duration = data.sleep[0].duration,
@@ -46,6 +53,17 @@ HYPNOGRAM_CHART.prototype.renderChart = function renderChart() {
       }
     });
   }
+
+  // Event show/hide tooltip
+  d3.select($element[0]).on('touchmove', function(event) {
+    _this.showTooltip(event);
+  }).on('mousemove', function(event) {
+    _this.showTooltip(event);
+  }).on('touchend', function() {
+    _this.hideTooltip();
+  }).on('mouseleave', function() {
+    _this.hideTooltip();
+  });
 }
 
 HYPNOGRAM_CHART.prototype.initChart = function initChart(options) {
@@ -513,6 +531,69 @@ HYPNOGRAM_CHART.prototype.updateChart = function updateChart() {
   this.shortWakes.attr('d', function (d, i) {
     return _this7.getHypnoShortWake(d, i);
   });
+}
+
+HYPNOGRAM_CHART.prototype.hideTooltip = function hideTooltip() {
+  this.selectedSegment = null;
+  this.tooltipLocation = null;
+  $('.' + this.tooltipClassName).css('visibility', 'hidden');
+}
+
+HYPNOGRAM_CHART.prototype.showTooltip = function showTooltip(event) {
+  var element = this.ELEMENT[0];
+  var _this = this;
+  var pageX = null;
+
+  if (event.pageX)
+    pageX = event.pageX;
+  else
+    pageX = event.changedTouches[0].pageX;
+
+  var xCoord = pageX - element.offsetLeft - this.margin.left;
+  var segments = this.shortWakeData.concat(this.hypnogramData);
+  
+  segments.some(function (segment) {
+    if (xCoord > _this.xScale(segment.start) && xCoord < _this.xScale(segment.end)) {
+      _this.tooltipLocation = {
+          x: pageX,
+          y: element.offsetTop + _this.margin.top
+        }
+      _this.selectedSegment = segment;
+
+      return true;
+    }
+  });
+
+  this.appendDataTooltip();
+
+  $('.' + this.tooltipClassName).css('left', this.tooltipLocation.x - 8);
+  $('.' + this.tooltipClassName).css('top', 15);
+  $('.' + this.tooltipClassName).css('visibility', 'visible');
+}
+
+HYPNOGRAM_CHART.prototype.appendDataTooltip = function appendDataTooltip() {
+  var periodTimeMilliseconds = moment.duration(this.selectedSegment.end.diff(this.selectedSegment.start));
+  var periodTimeMinuteSecond = '';
+
+  if (periodTimeMilliseconds.minutes() != 0)
+    periodTimeMinuteSecond += periodTimeMilliseconds.minutes() + ' min';
+  if (periodTimeMilliseconds.seconds() != 0) {
+    if (periodTimeMinuteSecond != '') periodTimeMinuteSecond += ' ';
+    periodTimeMinuteSecond += periodTimeMilliseconds.seconds() + ' sec';
+  }
+
+  $('.' + this.tooltipClassName).html(
+    '<span class="tooltip-label">' +
+      this.selectedSegment.level.toUpperCase() +
+    '</span> ' +
+    '<span class="tooltip-label">' +
+      periodTimeMinuteSecond +
+    '</span>' +
+    '<br>' +
+    '<span>' +
+      this.selectedSegment.start.format('h:mm:ss') + ' - ' + this.selectedSegment.end.format('h:mm:ss') +
+    '</span>'
+  );
 }
 
 /**

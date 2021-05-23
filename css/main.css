@@ -1,5 +1,6 @@
 .sleep-hypnogram-chart {
-    background: #1e1842
+    background: #1e1842;
+    position: relative;
 }
 
 .sleep-hypnogram-chart .hypnogram-segment,
@@ -70,4 +71,54 @@
     .sleep-hypnogram-chart .axis-x .tick:last-child {
         display: block
     }
+}
+
+/* .hypnogram-chart-tooltip {
+    color: white;
+    height: 30px;
+    position: absolute;
+    background-color: red;
+} */
+
+.hypnogram-chart-tooltip {
+    visibility: hidden;
+    position: absolute;
+    text-align: center;
+    -webkit-transform: translate(-50%, -100%);
+    transform: translate(-50%, -100%);
+    background-color: #fff;
+    color: #000;
+    border-radius: .25rem;
+    padding: 1.25rem;
+    border: .0625rem solid #ededed;
+    -webkit-box-shadow: 0 0 .375rem 0 rgba(0, 0, 0, .05);
+    box-shadow: 0 0 .375rem 0 rgba(0, 0, 0, .05)
+}
+
+.hypnogram-chart-tooltip:after,
+.hypnogram-chart-tooltip:before {
+    top: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: ' ';
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none
+}
+
+.hypnogram-chart-tooltip:after {
+    border-color: #fff transparent transparent;
+    border-width: .5rem;
+    margin-left: -.5rem
+}
+
+.hypnogram-chart-tooltip:before {
+    border-color: #ededed transparent transparent;
+    border-width: .5625rem;
+    margin-left: -.5625rem
+}
+
+.hypnogram-chart-tooltip .tooltip-label {
+    font-weight: bold;
 }
