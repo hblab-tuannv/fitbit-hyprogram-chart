@@ -15,41 +15,21 @@ HYPNOGRAM_CHART.prototype.renderChart = function renderChart() {
   // Append tooltip
   $element.append($('<div class="' + this.tooltipClassName + '"></div>'));
 
-  var dateOfSleep = data.sleep[0].dateOfSleep,
-    duration = data.sleep[0].duration,
-    efficiency = data.sleep[0].efficiency,
-    isMainSleep = data.sleep[0].isMainSleep,
-    shortLevelsData = data.sleep[0].levels.shortData,
-    levelsData = data.sleep[0].levels.data,
-    logId = data.sleep[0].logId,
-    minutesAfterWakeup = data.sleep[0].minutesAfterWakeup,
-    minutesAsleep = data.sleep[0].minutesAsleep,
-    minutesAwake = data.sleep[0].minutesAwake,
-    minutesToFallAsleep = data.sleep[0].minutesToFallAsleep,
-    startTime = data.sleep[0].startTime,
-    type = data.sleep[0].type;
+  var shortLevelsData = data.shortData,
+    levelsData = data.data,
+    startTime = levelsData[0].dateTime;
 
   if ($element && $element.length) {
     this.initChart({
       target: $element[0],
       chartData: {
-        dateOfSleep: dateOfSleep,
-        duration: duration,
-        efficiency: efficiency,
-        isMainSleep: isMainSleep,
         levelsData: levelsData,
         shortLevelsData: shortLevelsData,
-        logId: logId,
-        minutesAfterWakeup: minutesAfterWakeup,
-        minutesAsleep: minutesAsleep,
-        minutesAwake: minutesAwake,
-        minutesToFallAsleep: minutesToFallAsleep,
         // Using moment to get the correct date object.
         // Firefox and Chrome treat a the ISO 8601 format differently.
         // Without the 'Z', Chrome treats the time as UTC while Firefox treats it as local.
         // Moment normalizes.
         startTime: moment(startTime).toDate(),
-        type: type
       }
     });
   }
