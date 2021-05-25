@@ -527,12 +527,7 @@ HYPNOGRAM_CHART.prototype.hideTooltip = function hideTooltip() {
 HYPNOGRAM_CHART.prototype.showTooltip = function showTooltip(event) {
   var element = this.ELEMENT[0];
   var _this = this;
-  var pageX = null;
-
-  if (event.pageX)
-    pageX = event.pageX;
-  else
-    pageX = event.changedTouches[0].pageX;
+  var pageX = d3.pointer(event)[0];
 
   var xCoord = pageX - element.offsetLeft - this.margin.left;
   var segments = this.shortWakeData.concat(this.hypnogramData);
@@ -549,9 +544,11 @@ HYPNOGRAM_CHART.prototype.showTooltip = function showTooltip(event) {
     }
   });
 
+  if (this.selectedSegment == null) return false;
+
   this.appendDataTooltip();
 
-  $('.' + this.tooltipClassName).css('left', this.tooltipLocation.x - 8);
+  $('.' + this.tooltipClassName).css('left', this.tooltipLocation.x);
   $('.' + this.tooltipClassName).css('top', 15);
   $('.' + this.tooltipClassName).css('visibility', 'visible');
 }
